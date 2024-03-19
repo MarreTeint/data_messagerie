@@ -1,0 +1,31 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "metadata": {
+            "description": "Metadata about the message",
+            "type": "object",
+            "properties": {
+                "sender": {
+                    "description": "The sender of the message",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "The title of the message",
+                    "type": "string"
+                },
+                "date": {
+                    "description": "The date the message was sent",
+                    "type": "string"
+                }
+            },
+            "required": ["sender", "title", "date"]
+        },
+        "message": {
+            "description": "The message content",
+            "type": "string"
+        }
+    },
+    "required": ["metadata", "message"],
+    "additionalProperties": false
+}
