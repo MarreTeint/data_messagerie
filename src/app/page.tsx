@@ -1,16 +1,10 @@
-import { registerSchema, validate } from "@hyperjump/json-schema/draft-2020-12";
+import Link from "next/link"
 
 export default async function Home() {
-  const data = require('./inbox/01.json');
-  const schema = require('./schema.json');
-
-  registerSchema(schema, "http://example.com/schema.json");
-  const out = await validate("http://example.com/schema.json", data);
-
-  return (
+  return(
     <div>
-      <h1>Home</h1>
-      <p>{JSON.stringify(out)}</p>
+       <Link href="/view/01">working message</Link><br />
+      <Link href="/view/02">broken message</Link><br />
     </div>
   );
 }
