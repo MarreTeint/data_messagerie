@@ -11,6 +11,10 @@
                     "description": "The sender of the message",
                     "type": "string"
                 },
+                "receiver": {
+                    "description": "The receiver of the message",
+                    "type": "string"
+                },
                 "title": {
                     "description": "The title of the message",
                     "type": "string"
@@ -21,13 +25,37 @@
                     "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
                 }
             },
-            "required": ["sender", "title", "date"]
+            "required": ["sender", "receiver", "title", "date"]
+        },
+        "plugins": {
+            "description": "The plugins to use to process the message",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The name of the plugin used in the message",
+                        "type": "string"
+                    },
+                    "data": {
+                        "description": "The configuration of the plugin",
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "previous":{
+            "description": "id timeline of previous message",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         },
         "message": {
             "description": "The message content",
             "type": "string"
         }
     },
-    "required": ["metadata", "message"],
+    "required": ["metadata", "message", "plugins", "previous"],
     "additionalProperties": false
 }
