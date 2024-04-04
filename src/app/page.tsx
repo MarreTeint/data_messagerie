@@ -25,8 +25,7 @@ export default async function Home() {
   const files = getFilesInDirectory("src/app/inbox");
   return(
     <div>
-       <Link href="/view/01">working message</Link><br />
-       <Link href="/view/02">broken message</Link><br />
+       <Link href="/view/0">404 message</Link><br />
         {
           files.map((file, index) => {
             //const data = path.parse(file);

@@ -4,11 +4,18 @@ import { registerSchema, validate } from "@hyperjump/json-schema/draft-2020-12";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+function errorMessage(){
+    return (
+        <div className="text-red-500">
+            <span>Message not aligned with schema</span>
+        </div>
+    );
+}
 
 export default function Message({ params }: { params: { slug: string } }) {
     const router = useRouter();
     const [data, setData] = useState({ metadata: {title:"", sender:"", date:""}, message: ""});
-    const [valid, setValid] = useState({});
+    const [valid, setValid] = useState({valid: false, errors: []});
 
     useEffect(() => {
         try {
@@ -21,13 +28,16 @@ export default function Message({ params }: { params: { slug: string } }) {
     const schema = require('./../../schema.json');
     registerSchema(schema, "http://example.com/schema.json");
     useEffect(() => {
-        validate("http://example.com/schema.json", data).then((result) => {
+        validate("http://example.com/schema.json", data).then((result:any) => {
             setValid(result);
         });
     }, [data]);
 
     if (!data.metadata.title || !data.metadata.sender || !data.metadata.date || !data.message) {
         return null;
+    }
+    if (!valid.valid) {
+        return errorMessage();
     }
 
     return (
