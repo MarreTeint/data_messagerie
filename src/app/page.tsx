@@ -36,6 +36,7 @@ export default async function Home() {
             );
           })
         }
+        <Link href="/extentions">Gerer mes extentions</Link>
     </div>
   );
 }
