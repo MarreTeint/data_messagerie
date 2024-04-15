@@ -145,7 +145,7 @@
             }
         }
     },
-    "required": ["metadata", "message", "plugins", "previous"],
-    "optional": ["readed", "core_extentions"],
+    "required": ["metadata", "message", "previous"],
+    "optional": ["plugins", "core_extentions"],
     "additionalProperties": false
 }
