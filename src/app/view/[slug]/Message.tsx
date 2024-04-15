@@ -4,7 +4,7 @@ import { registerSchema, validate } from "@hyperjump/json-schema/draft-2020-12";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-function errorMessage(){
+function ErrorMessage(){
     return (
         <div className="text-red-500">
             <span>Message not aligned with schema</span>
@@ -12,9 +12,15 @@ function errorMessage(){
     );
 }
 
+function CoreExtentions(coreExtentions: any){   //readed: boolean, yes_no: {question: string, asnwer: boolean|null}, multiple_choice: {question: string, option: string[], answer: number}, time_selector: {hour: number, minutes: number}, color_selector: {red: number, green: number, blue: number}
+    return(
+        <div></div>
+    );
+}
+
 export default function Message({ params }: { params: { slug: string } }) {
     const router = useRouter();
-    const [data, setData] = useState({ metadata: {title:"", sender:"", date:""}, message: ""});
+    const [data, setData] = useState({ metadata: {title:"", sender:"", date:""}, message: "", coreExtentions:{}});
     const [valid, setValid] = useState({valid: false, errors: []});
 
     useEffect(() => {
@@ -34,10 +40,10 @@ export default function Message({ params }: { params: { slug: string } }) {
     }, [data]);
 
     if (!data.metadata.title || !data.metadata.sender || !data.metadata.date || !data.message) {
-        return null;
+        return null; // noting printed while loading
     }
     if (!valid.valid) {
-        return errorMessage();
+        return <ErrorMessage/>;
     }
 
     return (
@@ -50,6 +56,7 @@ export default function Message({ params }: { params: { slug: string } }) {
         <br />
         message: {data.message}
         <br />
+        <CoreExtentions/>
         {JSON.stringify(valid)}
       </div>
     );

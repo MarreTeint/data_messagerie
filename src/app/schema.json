@@ -55,93 +55,97 @@
             "description": "The message content",
             "type": "string"
         },
-        "readed": {
-            "description": "The message is readed",
-            "type": "boolean"
-        },
-        "yes_no": {
-            "description": "Choose yes or no to a question",
+        "core_extentions": {
             "type": "object",
-            "properties":{
-                "question": {
-                    "description": "The question to answer",
-                    "type": "string"
-                },
-                "yes": {
-                    "description": "The answer is yes",
+            "properties": {
+                "readed": {
+                    "description": "The message is readed",
                     "type": "boolean"
                 },
-                "no": {
-                    "description": "The answer is no",
-                    "type": "boolean"
-                }
-            }
-        },
-        "multiple_choice": {
-            "description": "Choose one of the options",
-            "type": "object",
-            "properties":{
-                "question": {
-                    "description": "The question to answer",
-                    "type": "string"
-                },
-                "options": {
-                    "description": "The options to choose from",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
+                "yes_no": {
+                    "description": "Choose yes or no to a question",
+                    "type": "object",
+                    "properties":{
+                        "question": {
+                            "description": "The question to answer",
+                            "type": "string"
+                        },
+                        "answer": {
+                            "description": "The answer chosen",
+                            "type": [
+                                "boolean",
+                                "null"
+                            ]
+                        }
                     }
                 },
-                "answer": {
-                    "description": "The answer chosen",
-                    "type": "string"
-                }
-            }
-        },
-        "time_selector": {
-            "description": "Choose a time",
-            "type": "object",
-            "properties":{
-                "hour": {
-                    "description": "The question to answer",
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 23
+                "multiple_choice": {
+                    "description": "Choose one of the options",
+                    "type": "object",
+                    "properties":{
+                        "question": {
+                            "description": "The question to answer",
+                            "type": "string"
+                        },
+                        "options": {
+                            "description": "The options to choose from",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "answer": {
+                            "description": "The answer chosen",
+                            "type": "string"
+                        }
+                    }
                 },
-                "minutes": {
-                    "description": "The time chosen",
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 59   
-                }
-            }
-        },
-        "color_selector": {
-            "description": "Choose a color",
-            "type": "object",
-            "properties":{
-                "red": {
-                    "description": "The red value of the color",
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 255
+                "time_selector": {
+                    "description": "Choose a time",
+                    "type": "object",
+                    "properties":{
+                        "hour": {
+                            "description": "The question to answer",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 23
+                        },
+                        "minutes": {
+                            "description": "The time chosen",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 59   
+                        }
+                    }
                 },
-                "green": {
-                    "description": "The green value of the color",
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 255
-                },
-                "blue": {
-                    "description": "The blue value of the color",
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 255
+                "color_selector": {
+                    "description": "Choose a color",
+                    "type": "object",
+                    "properties":{
+                        "red": {
+                            "description": "The red value of the color",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "green": {
+                            "description": "The green value of the color",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        },
+                        "blue": {
+                            "description": "The blue value of the color",
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 255
+                        }
+                    }
                 }
             }
         }
     },
     "required": ["metadata", "message", "plugins", "previous"],
-    "optional": ["readed", "yes_no", "multiple_choice", "time_selector", "color_selector"],
+    "optional": ["readed", "core_extentions"],
     "additionalProperties": false
 }
