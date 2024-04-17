@@ -5,7 +5,7 @@
       "title": "Meeting Reminder",
       "date": "2024-04-15T10:00:00Z"
     },
-    "previous": ["02"],
+    "previous": "01",
     "message": "Don't forget about our meeting at 10:00 AM in Conference Room A. Please be on time.",
     "core_extentions": {
       "readed": true,

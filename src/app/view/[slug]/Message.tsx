@@ -18,6 +18,7 @@ export default function Message({ params }: { params: { slug: string } }) {
     const [data, setData] = useState({ 
         metadata: {title:"", sender:"", receiver:"", date:""}, 
         message: "", 
+        previous: "",
         core_extentions:{
             "readed": false,
             "yes_no": {"question": "", "answer": false}, 
@@ -120,13 +121,13 @@ export default function Message({ params }: { params: { slug: string } }) {
                 <br /><hr />
             </div>
 
-            {data.core_extentions.readed !== undefined && (
+            {data.core_extentions !== undefined && data.core_extentions.readed !== undefined && (
                 <div>
                     <label>Message readed: </label>
                     <input type="checkbox" checked={data.core_extentions.readed} onChange={() => MessageReaded()}/>
                 </div>
             )}
-            {data.core_extentions.yes_no !== undefined && (
+            {data.core_extentions !== undefined && data.core_extentions.yes_no !== undefined && (
                 <div>
                     <label>{data.core_extentions.yes_no.question}</label>
                     <br />
@@ -136,7 +137,7 @@ export default function Message({ params }: { params: { slug: string } }) {
                     <label>No</label>
                 </div>
             )}
-            {data.core_extentions.multiple_choice !== undefined && (
+            {data.core_extentions !== undefined && data.core_extentions.multiple_choice !== undefined && (
                 <div>
                     <label>{data.core_extentions.multiple_choice.question}</label>
                     <br />
@@ -148,19 +149,21 @@ export default function Message({ params }: { params: { slug: string } }) {
                     ))}
                 </div>
             )}
-            {data.core_extentions.time_selector !== undefined && (
+            {data.core_extentions !== undefined && data.core_extentions.time_selector !== undefined && (
                 <div>
                     <label>Time: </label>
                     <input type="time" value={String(data.core_extentions.time_selector.hour).padStart(2, '0')+':'+String(data.core_extentions.time_selector.minutes).padStart(2, '0')} onChange={(event) => AnswerTime(event.target.value)} />
                 </div>
             )}
-            {data.core_extentions.color_selector !== undefined && (
+            {data.core_extentions !== undefined && data.core_extentions.color_selector !== undefined && (
                 <div>
                     <label>Color: </label>
                     <input type="color" value={'#'+data.core_extentions.color_selector.red.toString(16).padStart(2, '0')+data.core_extentions.color_selector.green.toString(16).padStart(2, '0')+data.core_extentions.color_selector.blue.toString(16).padStart(2, '0')} onChange={(event) => AnswerColor(event.target.value)} />
                 </div>
             )}
-            <hr />
+            <hr /><br />
+
+            <Message params={{ slug: data.previous }} />
         </div>
     );
 }

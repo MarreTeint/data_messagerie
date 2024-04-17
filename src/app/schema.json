@@ -46,10 +46,7 @@
         },
         "previous":{
             "description": "id timeline of previous message",
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+            "type": "string"
         },
         "message": {
             "description": "The message content",
@@ -145,7 +142,7 @@
             }
         }
     },
-    "required": ["metadata", "message", "previous"],
-    "optional": ["plugins", "core_extentions"],
+    "required": ["metadata", "message"],
+    "optional": ["plugins", "core_extentions", "previous"],
     "additionalProperties": false
 }
