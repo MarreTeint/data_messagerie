@@ -25,6 +25,7 @@ export default async function Home() {
   const files = getFilesInDirectory("src/app/inbox");
   return(
     <div>
+      <Link href={"/rep/new"}><button>Write a message</button></Link><br />
        <Link href="/view/0">404 message</Link><br />
         {
           files.map((file, index) => {

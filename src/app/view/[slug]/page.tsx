@@ -1,5 +1,6 @@
 import Message from './Message';
 import SideBar from './SideBar';
+import TopBar from './TopBar';
 
 export default function Page({ params }: { params: { slug: string } }) {
   return (
@@ -8,6 +9,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <SideBar />
       </div>
       <div className="w-3/4">
+        <TopBar />
         <Message params={params} />
       </div>
     </div>
