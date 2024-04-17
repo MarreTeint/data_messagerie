@@ -47,6 +47,19 @@ export default function Message({ params }: { params: { slug: string } }) {
         validate("http://example.com/schema.json", data).then((result:any) => {
             setValid(result);
         });
+        fetch(`/api/DataFiles`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: params.slug, data: data })
+        }).then(response => {
+            if (response.ok) {
+                console.log('Slug and data sent successfully');
+            } else {
+                console.log('Failed to send slug and data');
+            }
+        });
     }, [data]);
 
     // Check if I am the receiver or not
@@ -56,23 +69,9 @@ export default function Message({ params }: { params: { slug: string } }) {
     function MessageReaded(){
         if (isReceiver){
             setData({...data, core_extentions: {...data.core_extentions, readed: !data.core_extentions.readed}});
-            // call post api to update the message with api/DataFile.ts
-            fetch(`/api/DataFile`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Message updated');
-                } else {
-                    console.log('Message not updated');
-                }
-            });
         }
     }
-
+    
     function AnswerYN(answer: boolean){
         if (isReceiver){
             setData({...data, core_extentions: {...data.core_extentions, yes_no: {...data.core_extentions.yes_no, answer: answer}}});
