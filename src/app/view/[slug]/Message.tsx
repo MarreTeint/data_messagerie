@@ -36,7 +36,7 @@ export default function Message({ params }: { params: { slug: string } }) {
             const din = require(`./../../inbox/${params.slug}.json`);
             setData(din);
         } catch (e) {
-            router.push('/404');
+            //router.push('/404');
         }
     }, [router]);
 

@@ -22,7 +22,7 @@
                 "date": {
                     "description": "The date the message was sent",
                     "type": "string",
-                    "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
+                    "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z"
                 }
             },
             "required": ["sender", "receiver", "title", "date"]

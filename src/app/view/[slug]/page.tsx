@@ -6,10 +6,10 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="flex">
       <div className="w-1/4 border-r border-gray-300">
-        <SideBar />
+        <SideBar  />
       </div>
       <div className="w-3/4">
-        <TopBar />
+        <TopBar params={params}/>
         <Message params={params} />
       </div>
     </div>
