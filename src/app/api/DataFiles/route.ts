@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
+import { registerSchema, validate } from "@hyperjump/json-schema/draft-2020-12";
 
 export async function POST(req: NextRequest) {
   if(!req.body) {
@@ -13,6 +14,14 @@ export async function POST(req: NextRequest) {
   }
   if(!data) {
     return NextResponse.json({ error: "No data provided" }, { status: 400 });
+  }
+
+  const schema = require('./../../schema.json');
+  registerSchema(schema, "http://example.com/schema.json");
+
+  const validationResult = await validate("http://example.com/schema.json", data);
+  if(validationResult.valid === false) {
+    return NextResponse.json({ error: "Data does not align with schema", errors: validationResult.errors }, { status: 400 });
   }
 
   const filePath = `./src/app/inbox/${id}.json`;
@@ -62,7 +71,13 @@ export async function PUT(req: NextRequest) {
   if(!data) {
     return NextResponse.json({ error: "No data provided" }, { status: 400 });
   }
+  const schema = require('./../../schema.json');
+  registerSchema(schema, "http://example.com/schema.json");
 
+  const validationResult = await validate("http://example.com/schema.json", data);
+  if(validationResult.valid === false) {
+    return NextResponse.json({ error: "Data does not align with schema", errors: validationResult.errors }, { status: 400 });
+  }
   // Write the data to the file
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));

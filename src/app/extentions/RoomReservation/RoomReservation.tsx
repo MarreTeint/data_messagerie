@@ -5,12 +5,12 @@ import { useState } from "react";
 export default function RoomReservation(data: any){
     const schema = require('./schema.json');
     const [valid, setValid] = useState<any>({valid: false, errors: []});
-    registerSchema(schema, "http://example.com/schema.json")
+    registerSchema(schema, "http://example.com/Room.json")
 
     const start = new Date(data.data.from);
     const end = new Date(data.data.to);
 
-    validate("http://example.com/schema.json", data).then((result) => {
+    validate("http://example.com/Room.json", data).then((result) => {
         setValid(result);
     });
     
