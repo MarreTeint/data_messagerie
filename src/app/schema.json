@@ -102,7 +102,7 @@
                     "type": "object",
                     "properties":{
                         "hour": {
-                            "description": "The question to answer",
+                            "description": "Hour chosen",
                             "type": "integer",
                             "minimum": 0,
                             "maximum": 23

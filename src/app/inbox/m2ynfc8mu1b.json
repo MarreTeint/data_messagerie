@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "title": "Hello",
+    "sender": "John Doe",
+    "receiver": "Martin",
+    "date": "2024-04-20T15:05:07.232Z"
+  },
+  "message": "Hello there :D",
+  "core_extentions": {
+    "readed": true
+  }
+}
