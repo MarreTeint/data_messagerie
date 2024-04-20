@@ -3,10 +3,22 @@
     "$id": "https://exemple.com/schema.json",
     "type": "object",
     "properties": {
-        "room": {
-            "type": "string"
+        "data":{
+            "type": "object",
+            "properties": {
+                "room": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": ["room", "from", "to"],
+            "additionalProperties": false
         }
     },
-    "required": ["room"],
     "additionalProperties": false
 }

@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "title": "test",
+    "sender": "John Doe",
+    "receiver": "Jack",
+    "date": "2024-04-20T14:09:03.089Z"
+  },
+  "message": "eztgfzefrzef",
+  "plugins": [
+    {
+      "name": "RoomReservation",
+      "data": {
+        "room": "A",
+        "from": "2024-04-20T14:09:00.000Z",
+        "to": "2024-04-20T17:09:00.000Z"
+      }
+    }
+  ]
+}

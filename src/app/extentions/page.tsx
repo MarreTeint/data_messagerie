@@ -18,7 +18,7 @@ export default function Page(){
 
     return (
         <div>
-            <input type="checkbox" onChange={(event) => {UpdateExtention("RoomReservation", event.target.checked)}}/>Room Reservation
+            <input type="checkbox" checked={ext.RoomReservation} onChange={(event) => {UpdateExtention("RoomReservation", event.target.checked)}}/>RoomReservation
         </div>
     );
 }

@@ -1,13 +1,12 @@
 'use client'
 import Link from "next/link"
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const date = new Date();
   const [newMessage, setNewMessage] = useState(params.slug === "new");
-  console.log(newMessage);
   const [coreReaded, setCoreReaded] = useState(false);
   const [coreYN, setCoreYN] = useState(false);
   const [coreMC, setCoreMC] = useState(false);
@@ -15,19 +14,22 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [coreCS, setCoreCS] = useState(false);
   const ext = require ("./../../extentions/ext.json");
 
-  const [data, setData] = useState({ 
+  
+
+  const [data, setData] = useState<any>({ 
     metadata: {title:"", sender:"John Doe", receiver:"", date: date.toISOString()}, 
     message: "", 
     previous: params.slug,
     core_extentions:{
-        "readed": false,
-        "yes_no": {"question": "", "answer": null}, 
-        "multiple_choice": {"question": "","options": ["", "", ""],"answer": ""},
-        "time_selector": {"hour": 0, "minutes": 0},
-        "color_selector": {"red": 0,"green": 0,"blue": 0}
-    }
+        readed: false,
+        yes_no: {question: "", answer: null}, 
+        multiple_choice: {question: "",options: ["", "", ""],answer: ""},
+        time_selector: {hour: 0, minutes: 0},
+        color_selector: {red: 0,green: 0,blue: 0}
+    },
+    plugins : []
   });
-  
+  useEffect(() => {console.log(data)}, [data]);
   function updateTitle(title: string){
     setData({...data, metadata: {...data.metadata, title: title}});
   }
@@ -82,13 +84,33 @@ export default function Page({ params }: { params: { slug: string } }) {
     setCoreCS(ask);
   }
 
+  function updatePlugins(plugin: string, value: boolean){
+    if(value){
+      setData({...data, plugins: [...data.plugins, {name: plugin, data: {}}]});
+    }else{
+      let plugins = data.plugins;
+      let index = plugins.findIndex((element: any) => element.name === plugin);
+      plugins.splice(index, 1);
+      setData({...data, plugins: plugins});
+    }
+  }
+
+  function RoomData(param: string, value: string){
+    const extData = data.plugins.find((plugin: any) => plugin.name === "RoomReservation");
+    if(param === "room"){
+      extData.data[param] = value;
+    } else {
+      extData.data[param] = new Date(value).toISOString();
+    }
+    setData({...data, plugins: [extData]});
+  }
+
   function submitForm(e: any){
     e.preventDefault();
     let dataSent = data;
     if(newMessage){
       delete dataSent.previous;
-    }
-    
+    }  
     if(!coreReaded){
       delete dataSent.core_extentions.readed;
     }
@@ -106,6 +128,10 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
     if(!coreReaded && !coreYN && !coreMC && !coreTS && !coreCS){
       delete dataSent.core_extentions;
+    }
+
+    if(dataSent.plugins.length === 0){
+      delete dataSent.plugins;
     }
     fetch("/api/DataFiles", {
       method: "PUT",
@@ -160,6 +186,24 @@ export default function Page({ params }: { params: { slug: string } }) {
         </div>
         <div>
           <input type="checkbox" className="border" onChange={(event) => {addCS(event.target.checked)}}/> <label>Ask for a color</label>
+        </div>
+        <div>
+          {
+            Object.keys(ext).map((key) => {
+              return (
+                ext[key] ? 
+                <div key={key}>
+                  <input type="checkbox" className="border" onChange={(event) => {updatePlugins(key, event.target.checked)}}/> <label>{key}</label>
+                  {data.plugins.some((plugin: any) => plugin.name === key) ? 
+                    <div>
+                      <input type="text" placeholder="Room" onChange={(event) => {RoomData("room", event.target.value)}}/> <label>From:</label><input type="datetime-local" onChange={(event) => {RoomData("from", event.target.value)}}/><label>To:</label><input type="datetime-local" onChange={(event) => {RoomData("to", event.target.value)}}/>
+                    </div>
+                    : null}
+                </div> 
+                : null
+              )
+            })
+          }
         </div>
         <div>
           <button className="border" type="submit">Send</button>

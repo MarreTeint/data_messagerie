@@ -1,8 +1,8 @@
 'use client'
 
 import { registerSchema, validate } from "@hyperjump/json-schema/draft-2020-12";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import RoomReservation from "@/app/extentions/RoomReservation/RoomReservation";
 
 
 function ErrorMessage(){
@@ -14,18 +14,32 @@ function ErrorMessage(){
 }
 
 export default function Message({ params }: { params: { slug: string } }) {
-    const router = useRouter();
+    const ext = require ("./../../extentions/ext.json");
+    const notToUpdate = { 
+        metadata: {title:"", sender:"", receiver:"", date:""}, 
+        message: "", 
+        previous: "",
+        core_extentions:{
+            readed: false,
+            yes_no: {question: "", answer: false}, 
+            multiple_choice: {question: "",options: [""],answer: ""},
+            time_selector: {hour: 9, minutes: 30},
+            color_selector: {red: 0,"green": 0,"blue": 0}
+        },
+        plugins : [{name: "", data: {}}]
+    }
     const [data, setData] = useState({ 
         metadata: {title:"", sender:"", receiver:"", date:""}, 
         message: "", 
         previous: "",
         core_extentions:{
-            "readed": false,
-            "yes_no": {"question": "", "answer": false}, 
-            "multiple_choice": {"question": "Which option do you prefer for lunch?","options": ["Sandwiches", "Salad", "Pizza"],"answer": "Sandwiches"},
-            "time_selector": {"hour": 9, "minutes": 30},
-            "color_selector": {"red": 128,"green": 0,"blue": 255}
-        }
+            readed: false,
+            yes_no: {question: "", answer: false}, 
+            multiple_choice: {question: "",options: [""],answer: ""},
+            time_selector: {hour: 9, minutes: 30},
+            color_selector: {red: 0,"green": 0,"blue": 0}
+        },
+        plugins : [{name: "", data: {}}]
     });
 
     const [valid, setValid] = useState({valid: false, errors: []});
@@ -38,7 +52,7 @@ export default function Message({ params }: { params: { slug: string } }) {
         } catch (e) {
             //router.push('/404');
         }
-    }, [router]);
+    }, [params.slug]);
 
     const schema = require('./../../schema.json');
     registerSchema(schema, "http://example.com/schema.json");
@@ -47,19 +61,21 @@ export default function Message({ params }: { params: { slug: string } }) {
         validate("http://example.com/schema.json", data).then((result:any) => {
             setValid(result);
         });
-        fetch(`/api/DataFiles`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: params.slug, data: data })
-        }).then(response => {
-            if (response.ok) {
-                console.log('Slug and data sent successfully');
-            } else {
-                console.log('Failed to send slug and data');
-            }
-        });
+        if(data != notToUpdate){
+            fetch(`/api/DataFiles`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: params.slug, data: data })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Slug and data sent successfully');
+                } else {
+                    console.log('Failed to send slug and data');
+                }
+            });
+        }
     }, [data]);
 
     // Check if I am the receiver or not
@@ -161,7 +177,14 @@ export default function Message({ params }: { params: { slug: string } }) {
                 </div>
             )}
             <hr /><br />
-
+            {data.plugins !== undefined ? data.plugins.map((plugin: {name: string, data: any}) => (
+                <div key={plugin.name}>
+                    {ext[plugin.name] ? 
+                        <div><RoomReservation data={plugin.data}/></div> 
+                        : <span>this message use not intalled plugin ({plugin.name})</span>}
+                    
+                </div>
+            )) : null}
             <Message params={{ slug: data.previous }} />
         </div>
     );
